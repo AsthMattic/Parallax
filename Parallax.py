@@ -1,8 +1,8 @@
-#Web Scraping practice by/for Matt Hendricks
+#ISS Tracker by Matt Hendricks
 #Started 4/15/2021
 
-#Updated 4/16/2021
-#Migrating away from web scraping to a JSON import from a web API
+#Updated 4/18/2021
+#Moved code to GitHub
 
 
 #Load needed modules
