@@ -2,7 +2,7 @@
 #Started 4/15/2021
 
 #Updated 4/18/2021
-#Moved code to GitHub
+#Added GPS data retrieved via IP address. Code should now work and return a distance based on the systme it's run.
 
 
 #Load needed modules
@@ -16,12 +16,12 @@ issaltitude=[] #altitude (km)
 issspeed=[] #Current speed (km/h)
 time=[] #Timestamp from source
 isscountry=[] #Country the ISS is currently over
-devicelat=33.747811 #Latitude of the device
-devicelon=-117.806854 #Longitude of the device
+devicelat=[] #Latitude of the device
+devicelon=[] #Longitude of the device
 
 #Main program
 
-#Pull data from web source
+#Pull ISS data from web source
 #Source is: https://wheretheiss.at/w/developer
 with urllib.request.urlopen("https://api.wheretheiss.at/v1/satellites/25544") as url:
     data = json.loads(url.read().decode())
@@ -49,6 +49,17 @@ if isscountry == "??":
     isscountry = "None"
 
 
+#Get device location based on IP Address
+with urllib.request.urlopen("http://ipinfo.io/json") as url:
+    data2 = json.loads(url.read().decode())
+
+ipgps = data2['loc']
+ipgps = ipgps.split(",")
+
+devicelat = float(ipgps[0])
+devicelon = float(ipgps[1])
+
+
 #Calculate distance from device to ISS
 R = 6373.0
 
@@ -74,5 +85,10 @@ print("Altitude:",round(issaltitude,2),"km")
 print("Velocity:",round(issspeed,2),"km/h")
 print("Timestamp:",realtime)
 print("Currently over:",isscountry)
-print("Distance from device:",round(distance,2),"km")
+print("")
+print("Device Data:")
+print("")
+print("Latitude:",devicelat)
+print("Longitude:",devicelon)
+print("ISS Distance from device:",round(distance,2),"km")
 print("")
