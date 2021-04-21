@@ -18,6 +18,7 @@ time=[] #Timestamp from source
 isscountry=[] #Country the ISS is currently over
 devicelat=[] #Latitude of the device
 devicelon=[] #Longitude of the device
+countrytable=[] #Dictionary of country codes and names
 
 #Main program
 
@@ -45,8 +46,13 @@ with urllib.request.urlopen(issurl) as url:
 
 isscountry = issground['country_code']
 
+#Change to full country name and handle ocean position
 if isscountry == "??":
     isscountry = "None"
+else:
+    with urllib.request.urlopen("http://country.io/names.json") as url:
+        countrytable = json.loads(url.read().decode())
+    isscountry = countrytable[issground['country_code']]
 
 
 #Get device location based on IP Address
