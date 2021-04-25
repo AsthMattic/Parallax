@@ -2,8 +2,7 @@
 #Started 4/15/2021
 
 #Updated 4/18/2021
-#Added GPS data retrieved via IP address. Code should now work and return a distance based on the systme it's run.
-
+#Testing a commit to the N2YO branch
 
 #Load needed modules
 import json, urllib.request, datetime
