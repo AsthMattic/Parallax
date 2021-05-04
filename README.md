@@ -24,3 +24,20 @@ Bill Of Materials:
 14. Bearing: 30x55x13mm
 
 You will need basic soldering skills and tools, heat-shrink tubing or electrical tape for finishing.
+
+Slip Ring Wiring Plan
+Board Side:
+  Red: 5v (red) I2C line
+  Black: Ground (black) I2C line
+  Yellow: Yellow I2C line
+  Brown: Blue I2C line
+  Orange: Ras Pi GPIO Pin #
+  Green: None
+
+Staff Side:
+  Red: 5v (red) I2C line & Servo Voltage
+  Black: Ground (black) I2C line & Servo Ground
+  Yellow: Yellow I2C line
+  Brown: Blue I2C line
+  Orange: Servo Data
+  Green: None
