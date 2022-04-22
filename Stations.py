@@ -32,17 +32,26 @@ class Station:
     def where(self):
         print(self.name,"is located at",self.lat,self.lon)
 
-    #Function to get location information for the tracker from a web API
-    def ip_location(self):
-        with urllib.request.urlopen("http://ipinfo.io/json") as url:
-            ipLocationData = json.loads(url.read().decode())
+    #Function to calculate the distance from this station to another station object
+    def distance_calculate(self):
+        R = 6373.0
 
-        ipgps = ipLocationData['loc']
-        ipgps = ipgps.split(",")
+        lat1 = radians(self.target.lat)
+        lon1 = radians(self.target.lon)
+        lat2 = radians(self.lat)
+        lon2 = radians(self.lon)
 
-        self.lat = float(ipgps[0])
-        self.lon = float(ipgps[1])
+        dlon = lon2 - lon1
+        dlat = lat2 - lat1
+        a = (sin(dlat / 2)) ** 2 + cos(lat1) * cos(lat2) * (sin(dlon / 2)) ** 2
+        c = 2 * atan2(sqrt(a), sqrt(1 - a))
+        self.target_distance = round(R * c,2)
 
+    #Function to print the current distance from the tracker to the target object
+    def distance_report(self):
+        print("The",self.name,"is",self.target_distance,"km from the",self.target.name)
+
+class Satellite(Station):
     #Function to get location data from web API for satellite objects
     def location_update(self):
         # Pull ISS data from web source
@@ -64,21 +73,14 @@ class Station:
         # Convert the timestamp into a readable time format
         realtime = datetime.datetime.fromtimestamp(time)
 
-    #Function to calculate the distance from this station to another station object
-    def distance_calculate(self):
-        R = 6373.0
+class Base(Station):
+    #Function to get location information for the tracker from a web API
+    def location_update(self):
+        with urllib.request.urlopen("http://ipinfo.io/json") as url:
+            ipLocationData = json.loads(url.read().decode())
 
-        lat1 = radians(self.target.lat)
-        lon1 = radians(self.target.lon)
-        lat2 = radians(self.lat)
-        lon2 = radians(self.lon)
+        ipgps = ipLocationData['loc']
+        ipgps = ipgps.split(",")
 
-        dlon = lon2 - lon1
-        dlat = lat2 - lat1
-        a = (sin(dlat / 2)) ** 2 + cos(lat1) * cos(lat2) * (sin(dlon / 2)) ** 2
-        c = 2 * atan2(sqrt(a), sqrt(1 - a))
-        self.target_distance = round(R * c,2)
-
-    #Function to print the current distance from the tracker to the target object
-    def distance_report(self):
-        print("The",self.name,"is",self.target_distance,"km from the",self.target.name)
+        self.lat = float(ipgps[0])
+        self.lon = float(ipgps[1])

@@ -8,15 +8,15 @@
 
 #Load needed modules
 import datetime
-from Stations import Station
+from Stations import *
 
 #Create Station object that represents the tracker
-Tracker = Station("Tracker",0,0,0.0,0.0,0.0,0,0,0)
+Tracker = Base("Tracker",0,0,0.0,0.0,0.0,0,0,0)
 Tracker.hello()
-Tracker.ip_location()
+Tracker.location_update()
 
 #Create Station object for the ISS
-ISS = Station("ISS",1,25544,0.0,0.0,0.0,0,0,0)
+ISS = Satellite("ISS",1,25544,0.0,0.0,0.0,0,0,0)
 ISS.hello()
 ISS.location_update()
 
